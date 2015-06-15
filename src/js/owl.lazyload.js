@@ -71,7 +71,8 @@
 	 * @public
 	 */
 	Lazy.Defaults = {
-		lazyLoad: false
+		lazyLoad: false,
+		lazyLoadContinous: false
 	}
 
 	/**
@@ -97,6 +98,10 @@
 				$element.one('load.owl.lazy', $.proxy(function() {
 					$element.css('opacity', 1);
 					this._core.trigger('loaded', { element: $element, url: url }, 'lazy');
+					
+					if (this._core.settings.lazyLoadContinous){
+						this.load(position+1);
+					}
 				}, this)).attr('src', url);
 			} else {
 				image = new Image();
@@ -106,6 +111,10 @@
 						'opacity': '1'
 					});
 					this._core.trigger('loaded', { element: $element, url: url }, 'lazy');
+					
+					if (this._core.settings.lazyLoadContinous){
+						this.load(position+1);
+					}
 				}, this);
 				image.src = url;
 			}
